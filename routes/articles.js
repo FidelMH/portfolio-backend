@@ -1,11 +1,13 @@
 const express =  require('express')
 const router = express.Router()
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/'});
 const auth = require('../middleware/auth')
 const ArticleController = require('../controllers/articles')
 
 // POST Method
 
-router.post('/article',auth,ArticleController.newArticle)
+router.post('/article',upload.array('overviews'),auth,ArticleController.newArticle) 
 
 
 // GET by ID Method

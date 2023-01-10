@@ -1,21 +1,21 @@
 const Article = require('../models/articles')
 
-const newArticle =async (req,res,next)=>{
+const newArticle = async (req,res,next)=>{
     const data =  new Article(
         {
         title:  req.body.title,
         description: req.body.description,
-        text:  req.body.text,
-        images:  req.body.images
+        overviews:  req.files
         })
+        
+        // try {
+        //     const dataTosave = await data.save()
+        //     res.status(200).json(dataTosave)
     
-        try {
-            const dataTosave = await data.save()
-            res.status(200).json(dataTosave)
-    
-        } catch (error) {
-            res.status(400).json({message: error.message})
-        }
+        // } catch (error) {
+        //     res.status(400).json({message: error.message})
+        // }
+        res.send(data)
 }
 
 const getOneArticle = async (req,res,next) =>{

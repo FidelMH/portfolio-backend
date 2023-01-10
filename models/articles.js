@@ -8,8 +8,7 @@ function main(){
     const  articleSchema = new Schema({
         title: { required :true ,type: String},
         description: { required :true ,type: String},
-        text: String,
-        images:[String] 
+        overviews:[String] 
     
     }
     )
