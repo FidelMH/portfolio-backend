@@ -1,21 +1,31 @@
 const Article = require('../models/articles')
-
+const fs = require('file-system')
 const newArticle = async (req,res,next)=>{
-    const data =  new Article(
-        {
-        title:  req.body.title,
-        description: req.body.description,
-        overviews:  req.files
-        })
+    if(req.body.title && req.body.description && req.files){
+            
+            const filenames = req.files.map((file) =>{
+                return file.filename
+            })
+            const data =  new Article(
+            {
+            title:  req.body.title,
+            description: req.body.description,
+            overviews:  filenames
+            })
+            // res.send(data)
+
+            try {
+                const dataTosave = await data.save()
+                res.status(201).json(dataTosave) 
         
-        // try {
-        //     const dataTosave = await data.save()
-        //     res.status(200).json(dataTosave)
+            } catch (error) {
+                res.status(400).json({message: error.message})
+            }
+    }
     
-        // } catch (error) {
-        //     res.status(400).json({message: error.message})
-        // }
-        res.send(data)
+        
+        
+       
 }
 
 const getOneArticle = async (req,res,next) =>{
