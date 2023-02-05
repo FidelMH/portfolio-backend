@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
   origin: '*'
 }));
+app.use('/images', express.static('public/images'));
 app.use('/api',articles_route)
 app.use('/user',user_route)
 

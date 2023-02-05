@@ -6,11 +6,18 @@ const newArticle = async (req,res,next)=>{
             const filenames = req.files.map((file) =>{
                 return file.filename
             })
+            labels = JSON.parse(req.body.labels)
+            
+            const labelnames = labels.labels.map((label) =>{
+                return label
+            })
+            console.log(labelnames)
             const data =  new Article(
             {
             title:  req.body.title,
             description: req.body.description,
-            overviews:  filenames
+            overviews:  filenames,
+            labels:  labelnames
             })
             // res.send(data)
 
@@ -21,7 +28,7 @@ const newArticle = async (req,res,next)=>{
             } catch (error) {
                 res.status(400).json({message: error.message})
             }
-    }
+    } 
     
         
         
@@ -35,6 +42,7 @@ const getOneArticle = async (req,res,next) =>{
         if(data.length==0){
             res.json({error:'Not Found'})
         }
+        data.convertUrlToFull()
         res.json(data)
     } catch (error) {
         res.status(400).json({ message: error.message })

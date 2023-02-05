@@ -26,9 +26,9 @@ function fileFilter (req, file, cb) {
   
   }
 // SET STORAGE
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/uploads')
+      cb(null, 'public/images')
     },
     filename: function (req, file, cb) {
       cb(null, "img_"+uuidv4()+"."+ file.originalname.split('.').slice(-1))
