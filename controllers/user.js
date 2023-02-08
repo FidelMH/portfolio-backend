@@ -18,6 +18,11 @@ const signup = async (req,res,next) => {
 }
 
 const login = async (req,res,next) => {
+    console.log(req.body.email)
+    if(!req.body.email || !req.body.password){
+        res.json({success:false,error:"Send needed params"})
+        return
+    }
     const user = await User.findOne({email:req.body.email})
     try {
         const match = await bcrypt.compare(req.body.password, user.password)
@@ -31,7 +36,7 @@ const login = async (req,res,next) => {
 
         }
     } catch (error) {
-        
+        res.json({message: "Error : invalid login or password"})
     }
     // res.send(user)
 }

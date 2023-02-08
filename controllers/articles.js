@@ -31,7 +31,7 @@ const newArticle = async (req,res,next)=>{
     } 
     
         
-        
+         
        
 }
 
@@ -74,9 +74,21 @@ const deleteOneArticle = async (req,res,next) =>{
     try {
         const id = req.params.id
         const data = await Article.findByIdAndDelete(id)
-        res.send(`${data.title} has been deleted..`)
-    } catch (error) {
+        data.overviews.forEach((file) =>{
+            let directoryPath = "public/images/"
+            fs.unlink(directoryPath + file, (err) => {
+                if (err) {
+                    throw err;
+                }
+            
+                console.log("Delete File successfully.");
+            });
+        })
         
+        res.send(`${data.title} has been deleted..`)
+
+    } catch (error) {
+        res.status(400).json({message: 'item not found'})
     }
 }
 
